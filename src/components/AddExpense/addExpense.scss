@@ -1,0 +1,19 @@
+.addExpense-holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 50px 0 20px;
+    width: 100%;
+    input, button {
+        transition: all 0.2s ease-in-out;
+    }
+}
+
+.highlight {
+    input {
+        border: 1px solid green;
+    }
+    button {
+        background: green;
+    }
+}
