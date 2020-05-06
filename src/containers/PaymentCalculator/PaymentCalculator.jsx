@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './PaymentCalculator.scss';
+import styles from './PaymentCalculator.style';
 import AppConfig from '../../appConfig';
 
 const PaymentCalculator = ({expenses, debt}) => {
@@ -37,7 +37,6 @@ const PaymentCalculator = ({expenses, debt}) => {
     const standardPaymentsAnia = dividePayments('Ania', expensesArray, 'standard');
     const dividedDebtForMarcin = divideDebt('Marcin', debtArray);
     const dividedDebtForAnia = divideDebt('Ania', debtArray);
-    // const specificPaymentsAnia = dividePayments('Ania', expensesArray, 'specific');
 
     const calculateSummary = () => {
         const marcin = standardPaymentsMarcin + dividedDebtForMarcin;
@@ -59,9 +58,9 @@ const PaymentCalculator = ({expenses, debt}) => {
     const summary = calculateSummary();
 
     return ( 
-        <div className="payout-summary">
+        <div css={styles.payoutSummary}>
             {summary.howMuch === 0 ? 
-                <span className="payout-summary__amount">Czyste konto</span>
+                <span css={styles.payoutSummaryAmount}>Czyste konto</span>
                 :
                 <>{summary.whoOws} płaci <span className="payout-summary__amount">{summary.howMuch} zł</span></>
             }

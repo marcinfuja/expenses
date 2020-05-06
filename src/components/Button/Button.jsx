@@ -1,11 +1,13 @@
 import React from 'react';
-import './Button.scss';
+import styles from './Button.style';
 
 const Button = ({children, type, onClick, activeClass}) => {
+    const btnTypeStyle = styles[type];
     return ( 
         <button
             onClick={onClick}
-            className={`btn ${type} ${activeClass ? 'active' : ''}`}>{children}</button>
+            css={[styles.button, btnTypeStyle]}
+            className={`btn  ${activeClass ? 'active' : ''}`}>{children}</button>
      );
 }
  

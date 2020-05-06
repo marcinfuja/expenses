@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FormControl from '../FormControl/FormControl';
 import Button from '../Button/Button';
 import PlusIcon from '../../assets/icon-plus.svg';
-import './addExpense.scss';
+import styles from './AddExpense.style';
 
 const initialState = {
     expenseName: "",
@@ -39,12 +39,12 @@ const AddExpense = (props) => {
     }
 
     return ( 
-        <div className={`${props.successLightup ? 'highlight' : ''} addExpense-holder`}>
-            <div>
+        <div css={[styles.addExpenseHolder, props.successLightup ? styles.highlight : '']}>
+            <div css={styles.top}>
                 {props.expenseTypeSelected === 'debt' && 
-                    <div>
+                    <span css={styles.personInDebt}>
                         Dłużnik - {whoShouldPay}
-                    </div>
+                    </span>
                 }
             </div>
             <div>

@@ -1,10 +1,10 @@
 import React from 'react';
 import Avatar from '../../assets/avatar.jpg';
-import './Image.scss';
+import styles from './Image.style';
 
 const Image = (props) => {
     return (
-        <div className="avatar">
+        <div css={styles.avatar}>
             <img src={Avatar} />
         </div>
     );

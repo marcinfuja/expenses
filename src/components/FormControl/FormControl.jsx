@@ -1,10 +1,10 @@
 import React from 'react';
-import './FormControl.scss';
+import styles from './FormControl.style';
 
 const FormControl = (props) => {
     return ( 
         <input
-            className="form-control"
+            css={styles.formControl}
             value={props.value}
             name={props.name}
             type={props.inputType}

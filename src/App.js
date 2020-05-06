@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from "firebase/app";
 import "firebase/database";
-import { css } from '@emotion/core';
-
+import styles from './App.style';
 import './reset.scss';
 import './App.scss';
 
@@ -11,6 +10,7 @@ import Button from './components/Button/Button';
 import AddExpense from './components/AddExpense/AddExpense';
 import DeleteIcon from './assets/icon-delete.svg';
 import PaymentCalculator from './containers/PaymentCalculator/PaymentCalculator';
+
 
 class App extends Component {
     state = {
@@ -129,7 +129,7 @@ class App extends Component {
             price: price,
         });
     }
-1
+
     writeDebtData = (user, type, name, price, whoShouldPay) => {
         firebase.database().ref('debt/' + this.generateID()).set({
             user: user,
@@ -169,18 +169,17 @@ class App extends Component {
     render() {
     const { expenseTypeSelected, successLightup, expenses, debt, showModal } = this.state;
       return (
-        <div className="App">
-            <div className="container">
+        <div css={styles.app}>
+            <div css={styles.container}>
                 <Navigation />
-                <main>
+                <main css={styles.main}>
                     <PaymentCalculator expenses={expenses} debt={debt} />
-                    <h2 className="header--secondary">Dodaj wydatek</h2>
-                    <div className="button-holder">
+                    {false && <div className="button-holder">
                         <button onClick={() => this.changeUser('Marcin')}>Marcin</button>
                         <button onClick={() => this.changeUser('Ania')}>Ania</button>
-                    </div>
+                    </div>}
                     <div className="button-holder">
-                        <Button type="expense" activeClass={expenseTypeSelected === 'standard' ? true : false} onClick={() => this.changeExpenseType('standard')}>Standardowe</Button>
+                        <Button type="expense" activeClass={expenseTypeSelected === 'standard' ? true : false} onClick={() => this.changeExpenseType('standard')}>Dodaj wydatek</Button>
                         <Button type="expense" activeClass={expenseTypeSelected === 'debt' ? true : false} onClick={() => this.changeExpenseType('debt')}>Dodaj dług</Button>
                     </div>
                     <AddExpense user={this.state.user} addExpense={this.addExpense} resetExpenseForm={this.resetExpenseForm} expenseTypeSelected={expenseTypeSelected} successLightup={successLightup} />
@@ -194,20 +193,20 @@ class App extends Component {
                             </div>
                         </div>
                         <div className="body">
-                            {this.state.expenseTypeSelected === 'standard' && this.state.expenses.map(expense => (
-                                <div className="row" key={expense.uid}>
+                            {this.state.expenseTypeSelected === 'standard' && this.state.expenses.map((expense, i) => (
+                                i < 3 && <div className="row" key={expense.uid}>
                                     <div>{expense.name}</div>
                                     <div>{expense.price}</div>
-                                    <div>{expense.user}</div>
-                                    <div><Button type="delete" onClick={() => this.removeExpense(expense.uid)}><DeleteIcon /></Button></div>
+                                    <div>{expense.user.charAt(0)}</div>
+                                    <div><Button type="deleteBtn" onClick={() => this.removeExpense(expense.uid)}><DeleteIcon /></Button></div>
                                 </div>
                             ))}
-                            {this.state.expenseTypeSelected === 'debt' && this.state.debt && this.state.debt.map(debt => (
-                                <div className="row" key={debt.uid}>
+                            {this.state.expenseTypeSelected === 'debt' && this.state.debt && this.state.debt.map((debt, i) => (
+                                i < 3 && <div className="row" key={debt.uid}>
                                     <div>{debt.name}</div>
                                     <div>{debt.price}</div>
-                                    <div>{debt.user}</div>
-                                    <div><Button type="delete" onClick={() => this.removeDebt(debt.uid)}><DeleteIcon /></Button></div>
+                                    <div>{debt.user.charAt(0)}</div>
+                                    <div><Button type="deleteBtn" onClick={() => this.removeDebt(debt.uid)}><DeleteIcon /></Button></div>
                                 </div>
                             ))}
                         </div>
