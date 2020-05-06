@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as firebase from "firebase/app";
 import "firebase/database";
+import { css } from '@emotion/core';
 
 import './reset.scss';
 import './App.scss';
@@ -46,48 +47,49 @@ class App extends Component {
         });
     }
 
-    readExpenseData = () => {
-        const expenseRef = firebase.database().ref('expenses');
-            expenseRef.on("value", function(snapshot) {
-            if (snapshot.val()) {
-                let expensesObject = snapshot.val();
-                const expensesList = Object.keys(expensesObject).map(key => ({
-                    ...expensesObject[key],
-                    uid: key,
-                }));
-                this.updateExpensesList(expensesList)
-            } else {
-                this.updateExpensesList()
+    connectToFirebaseRef = (ref) => {
+        const databaseRef = firebase.database().ref(ref);
+
+        databaseRef.on("value", function(snapshot) {
+            if (ref === 'expenses') {
+                this.readExpenseData(snapshot);
+            }
+            if (ref === 'debt') {
+                this.readDebtData(snapshot);
             }
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         }, this);
     }
 
-    readDebtData = () => {
-        firebase.database().ref('debt').on("value", function(snapshot) {
-            if (snapshot.val()) {
-                let debtObject = snapshot.val();
-                const debtList = Object.keys(debtObject).map(key => ({
-                    ...debtObject[key],
-                    uid: key,
-                }));
-                this.setState({
-                    debt: debtList,
-                });
-            } else {
-                this.setState({
-                    debt: [],
-                });
-            }
-        }, function (errorObject) {
-            console.log("The read failed: " + errorObject.code);
-        }, this);
+    readExpenseData = (snapshot) => {
+        if (snapshot.val()) {
+            let expensesObject = snapshot.val();
+            const expensesList = Object.keys(expensesObject).map(key => ({
+                ...expensesObject[key],
+                uid: key,
+            }));
+            this.updateExpensesList(expensesList)
+        } else {
+            this.updateExpensesList()
+        }
     }
 
-    componentDidMount() {
-        this.readExpenseData();
-        this.readDebtData();
+    readDebtData = (snapshot) => {
+        if (snapshot.val()) {
+            let debtObject = snapshot.val();
+            const debtList = Object.keys(debtObject).map(key => ({
+                ...debtObject[key],
+                uid: key,
+            }));
+            this.setState({
+                debt: debtList,
+            });
+        } else {
+            this.setState({
+                debt: [],
+            });
+        }
     }
     
     changeExpenseType = (type) => {
@@ -140,7 +142,7 @@ class App extends Component {
 
     addExpense = (name, price) => {
         const whoShouldPay = this.state.user === 'Marcin' ? 'Ania' : 'Marcin';
-        if (this.state.expenseTypeSelected === 'specific') {
+        if (this.state.expenseTypeSelected === 'debt') {
             this.setState({
                 name: name,
                 price: price,
@@ -158,6 +160,11 @@ class App extends Component {
             })
         }
     }
+    
+    componentDidMount() {
+        this.connectToFirebaseRef('expenses');
+        this.connectToFirebaseRef('debt');
+    }
 
     render() {
     const { expenseTypeSelected, successLightup, expenses, debt, showModal } = this.state;
@@ -174,7 +181,7 @@ class App extends Component {
                     </div>
                     <div className="button-holder">
                         <Button type="expense" activeClass={expenseTypeSelected === 'standard' ? true : false} onClick={() => this.changeExpenseType('standard')}>Standardowe</Button>
-                        <Button type="expense" activeClass={expenseTypeSelected === 'specific' ? true : false} onClick={() => this.changeExpenseType('specific')}>Dodaj dług</Button>
+                        <Button type="expense" activeClass={expenseTypeSelected === 'debt' ? true : false} onClick={() => this.changeExpenseType('debt')}>Dodaj dług</Button>
                     </div>
                     <AddExpense user={this.state.user} addExpense={this.addExpense} resetExpenseForm={this.resetExpenseForm} expenseTypeSelected={expenseTypeSelected} successLightup={successLightup} />
                     <div className="table-alike">
@@ -195,7 +202,7 @@ class App extends Component {
                                     <div><Button type="delete" onClick={() => this.removeExpense(expense.uid)}><DeleteIcon /></Button></div>
                                 </div>
                             ))}
-                            {this.state.expenseTypeSelected === 'specific' && this.state.debt && this.state.debt.map(debt => (
+                            {this.state.expenseTypeSelected === 'debt' && this.state.debt && this.state.debt.map(debt => (
                                 <div className="row" key={debt.uid}>
                                     <div>{debt.name}</div>
                                     <div>{debt.price}</div>

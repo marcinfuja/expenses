@@ -30,7 +30,7 @@ const AddExpense = (props) => {
             }
         }
         
-        if (props.expenseTypeSelected === 'specific') {
+        if (props.expenseTypeSelected === 'debt') {
             if (expenseName && expensePrice) {
                 props.addExpense(expenseName, expensePrice);
                 clearState()
@@ -41,7 +41,7 @@ const AddExpense = (props) => {
     return ( 
         <div className={`${props.successLightup ? 'highlight' : ''} addExpense-holder`}>
             <div>
-                {props.expenseTypeSelected === 'specific' && 
+                {props.expenseTypeSelected === 'debt' && 
                     <div>
                         Dłużnik - {whoShouldPay}
                     </div>
