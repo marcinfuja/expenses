@@ -20,6 +20,8 @@ const AddExpense = (props) => {
         setState(prevState => ({ ...prevState, [name]: value }));
     }
 
+    const whoShouldPay = props.user === 'Marcin' ? 'Ania' : 'Marcin';
+
     const verfifyexpense = () => {
         if (props.expenseTypeSelected === 'standard') {
             if (expenseName && expensePrice) {
@@ -38,16 +40,20 @@ const AddExpense = (props) => {
 
     return ( 
         <div className={`${props.successLightup ? 'highlight' : ''} addExpense-holder`}>
-            <FormControl value={expenseName} name="expenseName" onChange={changeValue} inputType="text" placeholder="Produkt/Usługa" />
-            <FormControl value={expensePrice} name="expensePrice" onChange={changeValue} inputType="number" placeholder="Cena" />
-            {props.expenseTypeSelected === 'specific' && 
-                <div>
-                    <Button type="expense" name="expenseWhoToPay">Marcin</Button>
-                </div>
-            }
-            <Button type="add" onClick={() => verfifyexpense()}>
-                <PlusIcon />
-            </Button>
+            <div>
+                {props.expenseTypeSelected === 'specific' && 
+                    <div>
+                        Dłużnik - {whoShouldPay}
+                    </div>
+                }
+            </div>
+            <div>
+                <FormControl value={expenseName} name="expenseName" onChange={changeValue} inputType="text" placeholder="Produkt/Usługa" />
+                <FormControl value={expensePrice} name="expensePrice" onChange={changeValue} inputType="number" placeholder="Cena" />
+                <Button type="add" onClick={() => verfifyexpense()}>
+                    <PlusIcon />
+                </Button>
+            </div>
         </div>
      );
 }

@@ -13,40 +13,58 @@ import PaymentCalculator from './containers/PaymentCalculator/PaymentCalculator'
 
 class App extends Component {
     state = {
+        showModal: false,
         user: 'Marcin',
         expenseTypeSelected: 'standard',
         expenses: [],
+        debt: [],
         successLightup: false
     }
 
-    constructor() {
-        super();
+    updateExpensesList = (expenses) => {
+        let value;
+
+        if (expenses === null) {
+            value = [];
+        }
+        if (typeof expenses === 'undefined') {
+            value = [];
+        }
+        if (expenses) {
+            value = expenses;
+        }
+
+        this.setState({
+            expenses: [...value],
+            successLightup: true
+        }, () => {
+            setTimeout(() => {
+                this.setState({
+                    successLightup: false
+                });
+            }, 500)
+        });
     }
 
-    componentDidMount() {
-        firebase.database().ref('expenses').on("value", function(snapshot) {
+    readExpenseData = () => {
+        const expenseRef = firebase.database().ref('expenses');
+            expenseRef.on("value", function(snapshot) {
             if (snapshot.val()) {
                 let expensesObject = snapshot.val();
                 const expensesList = Object.keys(expensesObject).map(key => ({
                     ...expensesObject[key],
                     uid: key,
                 }));
-                this.setState({
-                    expenses: expensesList,
-                    successLightup: true
-                }, () => {
-                    setTimeout(() => {
-                        this.setState({
-                            successLightup: false
-                        });
-                    }, 500)
-                });
+                this.updateExpensesList(expensesList)
+            } else {
+                this.updateExpensesList()
             }
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         }, this);
+    }
 
-        
+    readDebtData = () => {
         firebase.database().ref('debt').on("value", function(snapshot) {
             if (snapshot.val()) {
                 let debtObject = snapshot.val();
@@ -57,16 +75,31 @@ class App extends Component {
                 this.setState({
                     debt: debtList,
                 });
+            } else {
+                this.setState({
+                    debt: [],
+                });
             }
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         }, this);
+    }
+
+    componentDidMount() {
+        this.readExpenseData();
+        this.readDebtData();
     }
     
     changeExpenseType = (type) => {
         this.setState({
             expenseTypeSelected: type
         })
+    }
+
+    resetDatabase = () => {
+        firebase.database().ref('expenses').remove();
+        firebase.database().ref('debt').remove();
+        this.setState({showModal: false});
     }
     
     generateID = () => {
@@ -94,7 +127,7 @@ class App extends Component {
             price: price,
         });
     }
-
+1
     writeDebtData = (user, type, name, price, whoShouldPay) => {
         firebase.database().ref('debt/' + this.generateID()).set({
             user: user,
@@ -127,13 +160,13 @@ class App extends Component {
     }
 
     render() {
-        const { expenseTypeSelected, successLightup, expenses } = this.state;
+    const { expenseTypeSelected, successLightup, expenses, debt, showModal } = this.state;
       return (
         <div className="App">
             <div className="container">
                 <Navigation />
                 <main>
-                    <PaymentCalculator expenses={expenses} />
+                    <PaymentCalculator expenses={expenses} debt={debt} />
                     <h2 className="header--secondary">Dodaj wydatek</h2>
                     <div className="button-holder">
                         <button onClick={() => this.changeUser('Marcin')}>Marcin</button>
@@ -143,7 +176,7 @@ class App extends Component {
                         <Button type="expense" activeClass={expenseTypeSelected === 'standard' ? true : false} onClick={() => this.changeExpenseType('standard')}>Standardowe</Button>
                         <Button type="expense" activeClass={expenseTypeSelected === 'specific' ? true : false} onClick={() => this.changeExpenseType('specific')}>Dodaj dług</Button>
                     </div>
-                    <AddExpense addExpense={this.addExpense} resetExpenseForm={this.resetExpenseForm} expenseTypeSelected={expenseTypeSelected} successLightup={successLightup} />
+                    <AddExpense user={this.state.user} addExpense={this.addExpense} resetExpenseForm={this.resetExpenseForm} expenseTypeSelected={expenseTypeSelected} successLightup={successLightup} />
                     <div className="table-alike">
                         <div className="head">
                             <div className="row">
@@ -173,7 +206,16 @@ class App extends Component {
                         </div>
                     </div>
                 </main>
-                <Button type="reset">RESET</Button>
+                <Button type="reset" onClick={() => this.setState({showModal: true})}>RESET</Button>
+                {showModal && 
+                    <div className="overlay">
+                        <div className="modal">
+                            Czy na pewno chcesz usunąć wszystkie wpisy w wydatkach?
+                            <Button onClick={() => this.setState({showModal: false})}>Nie</Button>
+                            <Button type="reset" onClick={this.resetDatabase}>Tak</Button>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
       )

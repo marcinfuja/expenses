@@ -1,11 +1,17 @@
 .addExpense-holder {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     margin: 50px 0 20px;
     width: 100%;
     input, button {
         transition: all 0.2s ease-in-out;
+    }
+    > div {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
     }
 }
 
