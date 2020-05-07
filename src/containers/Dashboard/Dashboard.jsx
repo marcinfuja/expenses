@@ -6,7 +6,6 @@ import PaymentCalculator from '../PaymentCalculator/PaymentCalculator';
 import styles from './Dashboard.style';
 
 const Dashboard = ({
-    logout,
     changeUser,
     changeExpenseType,
     resetExpenseForm,
@@ -18,10 +17,7 @@ const Dashboard = ({
     expenses,
     debt,
     userName,
-    resetDatabase
 }) => {
-    const [showModal, setShowModal] = useState(false);
-
     return ( 
         <>
             <main css={styles.main}>
@@ -64,19 +60,6 @@ const Dashboard = ({
                     </div>
                 </div>
             </main>
-            <Button type="reset" onClick={() => setShowModal(true)}>RESET</Button>
-            {showModal && 
-                <div className="overlay">
-                    <div className="modal">
-                        Czy na pewno chcesz usunąć wszystkie wpisy w wydatkach?
-                        <Button onClick={() => setShowModal(false)}>Nie</Button>
-                        <Button type="reset" onClick={() => {
-                            resetDatabase();
-                            setShowModal(false);
-                        }}>Tak</Button>
-                    </div>
-                </div>
-            }
         </>
      );
 }

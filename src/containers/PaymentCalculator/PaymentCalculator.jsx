@@ -62,7 +62,7 @@ const PaymentCalculator = ({expenses, debt}) => {
             {summary.howMuch === 0 ? 
                 <span css={styles.payoutSummaryAmount}>Czyste konto</span>
                 :
-                <>{summary.whoOws} płaci <span className="payout-summary__amount">{summary.howMuch} zł</span></>
+                <>{summary.whoOws} płaci <span css={styles.payoutSummaryAmmount}>{summary.howMuch} zł</span></>
             }
         </div>
     );

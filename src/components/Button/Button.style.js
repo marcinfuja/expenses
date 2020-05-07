@@ -10,6 +10,9 @@ const button = css`
     margin: 0 10px;
     cursor: pointer;
     outline: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const expense = css`

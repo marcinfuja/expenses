@@ -7,7 +7,7 @@ const payoutSummary = css`
 `;
 
 const payoutSummaryAmmount = css`
-    font-size: 44px;
+    font-size: 40px;
     font-weight: bold;
     margin-left: 0;
 `;

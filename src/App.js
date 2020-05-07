@@ -14,6 +14,7 @@ import './App.scss';
 import Dashboard from './containers/Dashboard/Dashboard.jsx';
 import ExpenseList from './containers/ExpenseList/ExpenseList';
 import Navigation from './components/Navigation/Navigation';
+import Button from './components/Button/Button';
 
 
 class App extends Component {
@@ -208,7 +209,7 @@ class App extends Component {
     }
     
     componentDidMount() {
-        // this.login();
+        this.login();
         auth.onAuthStateChanged(user => {
             if (user) {
                 if (user.email) {
@@ -231,11 +232,10 @@ class App extends Component {
         })
         this.connectToFirebaseRef('expenses');
         this.connectToFirebaseRef('debt');
-
     }
 
     render() {
-    const { expenseTypeSelected, successLightup, expenses, debt, showApp, userName} = this.state;
+    const { expenseTypeSelected, successLightup, expenses, debt, showApp, userName, showModal} = this.state;
       return (
             <div css={styles.app}>
                 <div css={styles.container}>
@@ -245,7 +245,12 @@ class App extends Component {
                                 <Navigation userName={userName} logout={this.logout} />
                                 <Switch>
                                     <Route path="/expenses">
-                                        <ExpenseList />
+                                        <ExpenseList
+                                            expenses={expenses}
+                                            debt={debt}
+                                            expenseTypeSelected={expenseTypeSelected}
+                                            changeExpenseType={this.changeExpenseType}
+                                        />
                                     </Route>
                                     <Route path="/">
                                         <Dashboard
@@ -255,7 +260,6 @@ class App extends Component {
                                             addExpense={this.addExpense}
                                             removeExpense={this.removeExpense}
                                             removeDebt={this.removeDebt}
-                                            resetDatabase={this.resetDatabase}
                                             expenseTypeSelected={expenseTypeSelected}
                                             successLightup={successLightup}
                                             expenses={expenses}
@@ -264,6 +268,19 @@ class App extends Component {
                                         />
                                     </Route>
                                 </Switch>
+                                <Button type="reset" onClick={() => this.setState({ showModal: true })}>RESET</Button>
+                                {showModal && 
+                                    <div className="overlay">
+                                        <div className="modal">
+                                            Czy na pewno chcesz usunąć wszystkie wpisy w wydatkach?
+                                            <Button onClick={() => this.setState({ showModal: false })}>Nie</Button>
+                                            <Button type="reset" onClick={() => {
+                                                this.resetDatabase();
+                                                this.setState({ showModal: false });
+                                            }}>Tak</Button>
+                                        </div>
+                                    </div>
+                                }
                             </> :
                             <div css={styles.loginScreen}>
                                 <h1>Wydatki</h1>
