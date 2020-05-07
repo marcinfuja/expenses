@@ -9,11 +9,13 @@ const main = css`
     align-items: center;
     flex-direction: row;
     position: relative;
+    margin-bottom: 20px;
 `;
 const menu = css`
     position: absolute;
     top: 110%;
-    right: 0;
+    right: 50%;
+    transform: translate(45%, 0);
     background: #fff;
     padding: 15px;
 `;
