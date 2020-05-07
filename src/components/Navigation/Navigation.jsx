@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
 import ChartIcon from '../../assets/icon-chart-bar.svg';
 import Image from '../../components/Image/Image';
-import { colors } from '../../constants';
-/** @jsx jsx */  import { jsx, css } from '@emotion/core';
+import styles from './Navigation.style';
 
-const style = css`
-    width: 100%;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
-`;
-
-const Navigation = () => {
+const Navigation = (props) => {
     const [showMenu, setShowMenu] = useState(false);
+    const unit = props.userName === 'Marcin' ? 'M' : 'A';
 
     return ( 
-        <nav css={style}>
+        <nav css={styles.main}>
             <div className="menu-button">
                 <ChartIcon />
             </div>
-            <Image />
+            <Image unit={unit} clickHandler={() => setShowMenu(true)} />
+            {showMenu && 
+                <div css={styles.menu}>
+                    <button css={styles.button} onClick={props.logout}>Log Out</button>
+                </div>
+            }
         </nav>
      );
 }

@@ -6,6 +6,14 @@ const avatar = css`
     height: 50px;
     border-radius: 100px;
     overflow: hidden;
+    background: ${colors.lightblue};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
     img {
         width: 100%;
         height: auto;

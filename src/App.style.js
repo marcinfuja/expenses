@@ -30,8 +30,37 @@ const container = css`
     margin: 20px 0 0;
 `;
 
+const loginScreen = css`
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    button {
+        background: none;
+        border: 0;
+        cursor: pointer;
+        font-size: 20px;
+        color: ${colors.darkblue};
+    }
+    h1 {
+       font-size: 40px;
+       margin: 20px 0 30px 
+    }
+`;
+
+const menu = css`
+    position: absolute;
+    top: 100%;
+    right: 0;
+`;
+
 const styles = {
-    app, main, container
+    app, main, container, loginScreen, menu
 }
 
 export default styles;
