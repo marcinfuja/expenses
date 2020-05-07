@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import FormControl from '../FormControl/FormControl';
 import Button from '../Button/Button';
 import PlusIcon from '../../assets/icon-plus.svg';
@@ -11,6 +11,7 @@ const initialState = {
 }
 const AddExpense = (props) => {
     let [{expenseName, expensePrice, expenseWhoToPay}, setState] = useState(initialState);
+    const nameInputRef = useRef(null);
 
     const clearState = () => {
         setState({...initialState})
@@ -18,6 +19,13 @@ const AddExpense = (props) => {
     const changeValue = (event) => {
         const { name, value } = event.target;
         setState(prevState => ({ ...prevState, [name]: value }));
+    }
+
+    const enterOnPriceTriggerSubmit = (event) => {
+        if (event.which === 13) {
+            verfifyexpense();
+            nameInputRef.current.focus();
+        }
     }
 
     const whoShouldPay = props.user === 'Marcin' ? 'Ania' : 'Marcin';
@@ -48,8 +56,8 @@ const AddExpense = (props) => {
                 }
             </div>
             <div>
-                <FormControl value={expenseName} name="expenseName" onChange={changeValue} inputType="text" placeholder="Produkt/Usługa" />
-                <FormControl value={expensePrice} name="expensePrice" onChange={changeValue} inputType="number" placeholder="Cena" />
+                <FormControl nameInputRef={nameInputRef} value={expenseName} name="expenseName" onChange={changeValue} inputType="text" placeholder="Produkt/Usługa" />
+                <FormControl value={expensePrice} name="expensePrice" onChange={changeValue} inputType="number" placeholder="Cena" enterOnPriceTriggerSubmit={enterOnPriceTriggerSubmit} />
                 <Button type="add" onClick={() => verfifyexpense()}>
                     <PlusIcon />
                 </Button>
