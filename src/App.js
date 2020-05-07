@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 import { firebase, auth, provider } from '../firebase.js';
 import { users } from '../variables';
 import styles from './App.style';
 import './reset.scss';
 import './App.scss';
 
-import Navigation from './components/Navigation/Navigation';
-import Button from './components/Button/Button';
-import AddExpense from './components/AddExpense/AddExpense';
-import DeleteIcon from './assets/icon-delete.svg';
-import PaymentCalculator from './containers/PaymentCalculator/PaymentCalculator';
-
+import Dashboard from './containers/Dashboard/Dashboard.jsx';
+import ExpenseList from './containers/ExpenseList/ExpenseList';
 class App extends Component {
     constructor(props) {
         super(props);
@@ -230,69 +232,42 @@ class App extends Component {
     }
 
     render() {
-    const { expenseTypeSelected, successLightup, expenses, debt, showModal, showApp, userName} = this.state;
+    const { expenseTypeSelected, successLightup, expenses, debt, showApp, userName} = this.state;
       return (
-        <div css={styles.app}>
-            <div css={styles.container}>
-            {showApp ? 
-                <>
-                    <Navigation userName={userName} logout={this.logout} />
-                    <main css={styles.main}>
-                        <PaymentCalculator expenses={expenses} debt={debt} />
-                        {false && <div className="button-holder">
-                            <button onClick={() => this.changeUser('Marcin')}>Marcin</button>
-                            <button onClick={() => this.changeUser('Ania')}>Ania</button>
-                        </div>}
-                        <div className="button-holder">
-                            <Button type="expense" activeClass={expenseTypeSelected === 'standard' ? true : false} onClick={() => this.changeExpenseType('standard')}>Dodaj wydatek</Button>
-                            <Button type="expense" activeClass={expenseTypeSelected === 'debt' ? true : false} onClick={() => this.changeExpenseType('debt')}>Dodaj dług</Button>
-                        </div>
-                        <AddExpense user={this.state.userName} addExpense={this.addExpense} resetExpenseForm={this.resetExpenseForm} expenseTypeSelected={expenseTypeSelected} successLightup={successLightup} />
-                        <div className="table-alike">
-                            <div className="head">
-                                <div className="row">
-                                    <div>Nazwa:</div>
-                                    <div>Cena</div>
-                                    <div>Opłacone przez:</div>
-                                    <div></div>
-                                </div>
+            <div css={styles.app}>
+                <div css={styles.container}>
+                    <Router>
+                        {showApp ? 
+                            <>
+                            <Switch>
+                                <Route path="/expenses">
+                                    <ExpenseList />
+                                </Route>
+                                <Route path="/">
+                                    <Dashboard
+                                        logout={this.logout}
+                                        changeUser={this.changeUser}
+                                        changeExpenseType={this.changeExpenseType}
+                                        resetExpenseForm={this.resetExpenseForm}
+                                        addExpense={this.addExpense}
+                                        removeExpense={this.removeExpense}
+                                        removeDebt={this.removeDebt}
+                                        resetDatabase={this.resetDatabase}
+                                        expenseTypeSelected={expenseTypeSelected}
+                                        successLightup={successLightup}
+                                        expenses={expenses}
+                                        debt={debt}
+                                        userName={userName}
+                                    />
+                                </Route>
+                            </Switch>
+                            </> :
+                            <div css={styles.loginScreen}>
+                                <h1>Wydatki</h1>
+                                <button onClick={this.login}>Zaloguj się</button> 
                             </div>
-                            <div className="body">
-                                {this.state.expenseTypeSelected === 'standard' && this.state.expenses.map((expense, i) => (
-                                    i < 3 && <div className="row" key={expense.uid}>
-                                        <div>{expense.name}</div>
-                                        <div>{expense.price}</div>
-                                        <div>{expense.user.charAt(0)}</div>
-                                        <div><Button type="deleteBtn" onClick={() => this.removeExpense(expense.uid)}><DeleteIcon /></Button></div>
-                                    </div>
-                                ))}
-                                {this.state.expenseTypeSelected === 'debt' && this.state.debt && this.state.debt.map((debt, i) => (
-                                    i < 3 && <div className="row" key={debt.uid}>
-                                        <div>{debt.name}</div>
-                                        <div>{debt.price}</div>
-                                        <div>{debt.user.charAt(0)}</div>
-                                        <div><Button type="deleteBtn" onClick={() => this.removeDebt(debt.uid)}><DeleteIcon /></Button></div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </main>
-                    <Button type="reset" onClick={() => this.setState({showModal: true})}>RESET</Button>
-                    {showModal && 
-                        <div className="overlay">
-                            <div className="modal">
-                                Czy na pewno chcesz usunąć wszystkie wpisy w wydatkach?
-                                <Button onClick={() => this.setState({showModal: false})}>Nie</Button>
-                                <Button type="reset" onClick={this.resetDatabase}>Tak</Button>
-                            </div>
-                        </div>
-                    }
-                </> :
-                <div css={styles.loginScreen}>
-                    <h1>Wydatki</h1>
-                    <button onClick={this.login}>Zaloguj się</button> 
-                </div>
-            }
+                        }
+                </Router>
             </div>
         </div>
       )

@@ -24,7 +24,6 @@ const AddExpense = (props) => {
     const enterOnPriceTriggerSubmit = (event) => {
         if (event.which === 13) {
             verfifyexpense();
-            nameInputRef.current.focus();
         }
     }
 
@@ -44,6 +43,7 @@ const AddExpense = (props) => {
                 clearState()
             }
         }
+        nameInputRef.current.focus();
     }
 
     return ( 

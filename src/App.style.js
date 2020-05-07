@@ -12,13 +12,6 @@ const app = css`
     min-height: 100vh;
 `;
 
-const main = css`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-`;
-
 const container = css`
     width: 100%;
     max-width: 410px;
@@ -60,7 +53,7 @@ const menu = css`
 `;
 
 const styles = {
-    app, main, container, loginScreen, menu
+    app, container, loginScreen, menu
 }
 
 export default styles;
