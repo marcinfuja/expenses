@@ -13,6 +13,9 @@ import './App.scss';
 
 import Dashboard from './containers/Dashboard/Dashboard.jsx';
 import ExpenseList from './containers/ExpenseList/ExpenseList';
+import Navigation from './components/Navigation/Navigation';
+
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -239,28 +242,28 @@ class App extends Component {
                     <Router>
                         {showApp ? 
                             <>
-                            <Switch>
-                                <Route path="/expenses">
-                                    <ExpenseList />
-                                </Route>
-                                <Route path="/">
-                                    <Dashboard
-                                        logout={this.logout}
-                                        changeUser={this.changeUser}
-                                        changeExpenseType={this.changeExpenseType}
-                                        resetExpenseForm={this.resetExpenseForm}
-                                        addExpense={this.addExpense}
-                                        removeExpense={this.removeExpense}
-                                        removeDebt={this.removeDebt}
-                                        resetDatabase={this.resetDatabase}
-                                        expenseTypeSelected={expenseTypeSelected}
-                                        successLightup={successLightup}
-                                        expenses={expenses}
-                                        debt={debt}
-                                        userName={userName}
-                                    />
-                                </Route>
-                            </Switch>
+                                <Navigation userName={userName} logout={this.logout} />
+                                <Switch>
+                                    <Route path="/expenses">
+                                        <ExpenseList />
+                                    </Route>
+                                    <Route path="/">
+                                        <Dashboard
+                                            changeUser={this.changeUser}
+                                            changeExpenseType={this.changeExpenseType}
+                                            resetExpenseForm={this.resetExpenseForm}
+                                            addExpense={this.addExpense}
+                                            removeExpense={this.removeExpense}
+                                            removeDebt={this.removeDebt}
+                                            resetDatabase={this.resetDatabase}
+                                            expenseTypeSelected={expenseTypeSelected}
+                                            successLightup={successLightup}
+                                            expenses={expenses}
+                                            debt={debt}
+                                            userName={userName}
+                                        />
+                                    </Route>
+                                </Switch>
                             </> :
                             <div css={styles.loginScreen}>
                                 <h1>Wydatki</h1>
