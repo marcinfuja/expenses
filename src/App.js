@@ -158,6 +158,7 @@ class App extends Component {
     removeExpense = (uid) => {
         firebase.database().ref('expenses/' + uid).remove();
     }
+
     removeDebt = (uid) => {
         firebase.database().ref('debt/' + uid).remove();
     }
@@ -168,48 +169,69 @@ class App extends Component {
         })
     }
 
-    writeExpenseData = (userName, type, name, price) => {
+    writeExpenseData = (userName, type, name, price, date) => {
+        const timestamp = date.getTime();
+
         firebase.database().ref('expenses/' + this.generateID()).set({
             user: userName,
             type: type,
             name : name,
             price: price,
+            date: timestamp,
         });
     }
 
-    writeDebtData = (userName, type, name, price, whoShouldPay) => {
+    writeDebtData = (userName, type, name, price, date, whoShouldPay) => {
+        const timestamp = date.getTime();
+
         firebase.database().ref('debt/' + this.generateID()).set({
             user: userName,
             type: type,
             name : name,
             price: price,
+            date: timestamp,
             whoShouldPay: whoShouldPay
         });
     }
 
-    addExpense = (name, price) => {
+    addExpense = (name, price, date) => {
         const whoShouldPay = this.state.userName === 'Marcin' ? 'Ania' : 'Marcin';
         if (this.state.expenseTypeSelected === 'debt') {
             this.setState({
                 name: name,
                 price: price,
+                date: date,
                 whoShouldPay: whoShouldPay
             }, () => {
-                this.writeDebtData(this.state.userName, this.state.expenseTypeSelected, this.state.name, this.state.price, this.state.whoShouldPay);
+                this.writeDebtData(
+                    this.state.userName,
+                    this.state.expenseTypeSelected,
+                    this.state.name,
+                    this.state.price,
+                    this.state.date,
+                    this.state.whoShouldPay
+                );
             })
         } else {
             this.setState({
                 name: name,
                 price: price,
+                date: date,
                 whoShouldPay: whoShouldPay
             }, () => {
-                this.writeExpenseData(this.state.userName, this.state.expenseTypeSelected, this.state.name, this.state.price);
+                this.writeExpenseData(
+                    this.state.userName,
+                    this.state.expenseTypeSelected,
+                    this.state.name,
+                    this.state.price,
+                    this.state.date
+                );
             })
         }
     }
     
     componentDidMount() {
-        this.login();
+        // this.login();
         auth.onAuthStateChanged(user => {
             if (user) {
                 if (user.email) {

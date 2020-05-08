@@ -18,6 +18,9 @@ const Dashboard = ({
     debt,
     userName,
 }) => {
+
+    const sortedExpenses = expenses.sort((a, b) => b.date - a.date);
+
     return ( 
         <>
             <main css={styles.main}>
@@ -37,26 +40,37 @@ const Dashboard = ({
                             <div>Nazwa:</div>
                             <div>Cena</div>
                             <div>Opłacone przez:</div>
+                            <div>Data:</div>
                             <div></div>
                         </div>
                     </div>
                     <div className="body">
-                        {expenseTypeSelected === 'standard' && expenses.map((expense, i) => (
-                            i < 3 && <div className="row" key={expense.uid}>
-                                <div>{expense.name}</div>
-                                <div>{expense.price}</div>
-                                <div>{expense.user.charAt(0)}</div>
-                                <div><Button type="deleteBtn" onClick={() => removeExpense(expense.uid)}><DeleteIcon /></Button></div>
-                            </div>
-                        ))}
-                        {expenseTypeSelected === 'debt' && debt && debt.map((debt, i) => (
+                        {expenseTypeSelected === 'standard' && sortedExpenses.map((expense, i) => {
+                            const formattedDate = new Date(expense.date).toLocaleDateString("pl-PL")
+                            return (
+                                i < 3 && <div className="row" key={expense.uid}>
+                                    <div>{expense.name}</div>
+                                    <div>{expense.price}</div>
+                                    <div>{expense.user.charAt(0)}</div>
+                                    <div>{formattedDate}</div>
+                                    <div><Button type="deleteBtn" onClick={() => removeExpense(expense.uid)}><DeleteIcon /></Button></div>
+                                </div>
+                            )
+                        }
+                        )}
+                        {expenseTypeSelected === 'debt' && debt && debt.map((debt, i) =>  {
+                            const formattedDate = new Date(debt.date).toLocaleDateString("pl-PL")
+                            return (
                             i < 3 && <div className="row" key={debt.uid}>
                                 <div>{debt.name}</div>
                                 <div>{debt.price}</div>
                                 <div>{debt.user.charAt(0)}</div>
+                                <div>{formattedDate}</div>
                                 <div><Button type="deleteBtn" onClick={() => removeDebt(debt.uid)}><DeleteIcon /></Button></div>
                             </div>
-                        ))}
+                            )
+                        }
+                        )}
                     </div>
                 </div>
             </main>

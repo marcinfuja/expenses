@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './FormControl.style';
 
 const FormControl = (props) => {
+
     return ( 
         <>
-            {props.name === 'expenseName' ?
+            {props.name === 'expenseName' &&
                 <input
                     css={styles.formControl}
                     value={props.value}
@@ -14,8 +15,8 @@ const FormControl = (props) => {
                     onChange={props.onChange}
                     ref={props.nameInputRef}
                     />
-                    :
-                    
+            }
+            {props.name === 'expensePrice' &&
                 <input
                     css={styles.formControl}
                     value={props.value}
@@ -24,7 +25,7 @@ const FormControl = (props) => {
                     placeholder={props.placeholder}
                     onChange={props.onChange}
                     min={1}
-                    onKeyUp={() => props.enterOnPriceTriggerSubmit(event)}
+                    // onKeyUp={() => props.enterOnPriceTriggerSubmit(event)}
                     />
             }
         </>

@@ -14,7 +14,7 @@ const app = css`
 
 const container = css`
     width: 100%;
-    max-width: 410px;
+    max-width: 610px;
     padding: 20px 25px;
     display: flex;
     flex-direction: column;
