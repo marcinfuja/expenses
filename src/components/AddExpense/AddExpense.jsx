@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import FormControl from '../FormControl/FormControl';
 import Button from '../Button/Button';
 import DatePicker from "react-datepicker";
@@ -19,6 +19,9 @@ const AddExpense = (props) => {
 
     const nameInputRef = useRef(null);
 
+    useEffect(() => {
+        nameInputRef.current.focus();
+    })
 
     const triggerSubmit = (event) => {
         if (event.which === 13) {
