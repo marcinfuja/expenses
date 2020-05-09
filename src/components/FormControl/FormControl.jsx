@@ -25,7 +25,7 @@ const FormControl = (props) => {
                     placeholder={props.placeholder}
                     onChange={props.onChange}
                     min={1}
-                    // onKeyUp={() => props.enterOnPriceTriggerSubmit(event)}
+                    onKeyUp={() => props.enterOnPriceTriggerSubmit(event)}
                     />
             }
         </>

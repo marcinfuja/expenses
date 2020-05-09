@@ -19,18 +19,28 @@ const AddExpense = (props) => {
 
     const nameInputRef = useRef(null);
 
+
+    const triggerSubmit = (event) => {
+        if (event.which === 13) {
+            verfifyexpense();
+        }
+    }
+
+    const listenerCallback = () => {
+        triggerSubmit()
+        document.removeEventListener("keydown", listenerCallback, true);
+    }
+
+    const addEnterListener = () => {
+        document.addEventListener("keydown", listenerCallback, true);
+    }
+
     const clearState = () => {
         setState({...initialState})
     }
     const changeValue = (event) => {
         const { name, value } = event.target;
         setState(prevState => ({ ...prevState, [name]: value }));
-    }
-
-    const enterOnPriceTriggerSubmit = (event) => {
-        if (event.which === 13) {
-            verfifyexpense();
-        }
     }
 
     const whoShouldPay = props.user === 'Marcin' ? 'Ania' : 'Marcin';
@@ -69,7 +79,7 @@ const AddExpense = (props) => {
                 </div>
                 <div>
                     <FormControl value={expensePrice} name="expensePrice" onChange={changeValue} inputType="number" placeholder="Cena"
-                        // enterOnPriceTriggerSubmit={enterOnPriceTriggerSubmit}
+                        enterOnPriceTriggerSubmit={triggerSubmit}
                         />
                 </div>
                 <div>
@@ -78,7 +88,10 @@ const AddExpense = (props) => {
                         css={stylesForm.formControl}
                         name="expenseDate"
                         withPortal
-                        onChange={date => setExpenseDate(date)} />
+                        onChange={date => {
+                            addEnterListener();
+                            setExpenseDate(date)
+                        }} />
                 </div>
                 <div>
                     <Button type="add" onClick={() => verfifyexpense()}>
