@@ -21,7 +21,7 @@ const AddExpense = (props) => {
 
     useEffect(() => {
         nameInputRef.current.focus();
-    })
+    }, [])
 
     const triggerSubmit = (event) => {
         if (event.which === 13) {
