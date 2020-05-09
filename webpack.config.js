@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpackMerge = require("webpack-merge");
 const modeConfig = env => require(`./build-utils/webpack.${env}`)(env);
 const presetConfig = require("./build-utils/loadPresets");
+const workboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = ({ mode, presets } = { mode: "production", presets: [] }) => {
   return webpackMerge(
@@ -45,7 +46,12 @@ module.exports = ({ mode, presets } = { mode: "production", presets: [] }) => {
           filename: 'index.html',
           template: './src/index.html'
         }),
-        new webpack.ProgressPlugin()
+        new webpack.ProgressPlugin(),
+        new workboxPlugin.GenerateSW({
+          swDest: 'sw.js',
+          clientsClaim: true,
+          skipWaiting: true,
+        })
       ]
     },
     modeConfig(mode),
