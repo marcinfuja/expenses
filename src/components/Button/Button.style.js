@@ -37,7 +37,7 @@ const add = css`
     padding: 0;
     justify-content: center;
     align-items: center;
-    min-width: 40px;
+    margin: 0;
 `;
 
 const reset = css`

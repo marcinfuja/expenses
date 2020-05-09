@@ -39,7 +39,7 @@ const Dashboard = ({
                         <div className="row">
                             <div>Nazwa:</div>
                             <div>Cena</div>
-                            <div>Opłacone przez:</div>
+                            <div>Kto:</div>
                             <div>Data:</div>
                             <div></div>
                         </div>

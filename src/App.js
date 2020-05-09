@@ -235,7 +235,6 @@ class App extends Component {
         auth.onAuthStateChanged(user => {
             if (user) {
                 if (user.email) {
-                    console.log(user)
                     this.setState({
                         showApp: true
                     })
@@ -295,11 +294,13 @@ class App extends Component {
                                     <div className="overlay">
                                         <div className="modal">
                                             Czy na pewno chcesz usunąć wszystkie wpisy w wydatkach?
-                                            <Button onClick={() => this.setState({ showModal: false })}>Nie</Button>
-                                            <Button type="reset" onClick={() => {
-                                                this.resetDatabase();
-                                                this.setState({ showModal: false });
-                                            }}>Tak</Button>
+                                            <div>
+                                                <Button onClick={() => this.setState({ showModal: false })}>Nie</Button>
+                                                <Button type="reset" onClick={() => {
+                                                    this.resetDatabase();
+                                                    this.setState({ showModal: false });
+                                                }}>Tak</Button>
+                                            </div>
                                         </div>
                                     </div>
                                 }

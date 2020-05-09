@@ -8,6 +8,12 @@ html, body {
     color: #707070;
     font-family: 'Roboto', sans-serif;
 }
+
+body {
+    min-width: 400px;
+    overflow-x: hidden;
+}
+
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: rgba(#457B9D, 1) !important;
 }

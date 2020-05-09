@@ -13,6 +13,10 @@ const formControl = css`
     min-width: 0;
     background: none;
     margin: 0 10px 0 0;
+    color: ${colors.blue};
+    @media all and (max-width: 410px) {
+        font-size: 14px;
+    }
 `;
 
 const styles = {

@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import '../../react-datepicker.scss';
 import PlusIcon from '../../assets/icon-plus.svg';
 import styles from './AddExpense.style';
+import stylesForm from '../FormControl/FormControl.style';
 
 const initialState = {
     expenseName: "",
@@ -62,16 +63,28 @@ const AddExpense = (props) => {
                     </span>
                 }
             </div>
-            <div>
-                <FormControl nameInputRef={nameInputRef} value={expenseName} name="expenseName" onChange={changeValue} inputType="text" placeholder="Produkt/Usługa" />
-                <FormControl value={expensePrice} name="expensePrice" onChange={changeValue} inputType="number" placeholder="Cena"
-                    // enterOnPriceTriggerSubmit={enterOnPriceTriggerSubmit}
-                     />
-                <DatePicker selected={expenseDate} name="expenseDate" onChange={date => setExpenseDate(date)} />
-                     
-                <Button type="add" onClick={() => verfifyexpense()}>
-                    <PlusIcon />
-                </Button>
+            <div css={styles.formContainer}>
+                <div>
+                    <FormControl nameInputRef={nameInputRef} value={expenseName} name="expenseName" onChange={changeValue} inputType="text" placeholder="Produkt/Usługa" />
+                </div>
+                <div>
+                    <FormControl value={expensePrice} name="expensePrice" onChange={changeValue} inputType="number" placeholder="Cena"
+                        // enterOnPriceTriggerSubmit={enterOnPriceTriggerSubmit}
+                        />
+                </div>
+                <div>
+                    <DatePicker
+                        selected={expenseDate}
+                        css={stylesForm.formControl}
+                        name="expenseDate"
+                        withPortal
+                        onChange={date => setExpenseDate(date)} />
+                </div>
+                <div>
+                    <Button type="add" onClick={() => verfifyexpense()}>
+                        <PlusIcon />
+                    </Button>
+                </div>
             </div>
         </div>
      );

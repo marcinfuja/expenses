@@ -37,8 +37,33 @@ const highlight = css`
     }
 `;
 
+const formContainer = css`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    > div {
+        input {
+            width: 100%;
+        } 
+    } 
+    > div:nth-of-type(1) {
+        width: calc(40% - 20px);
+    }
+    > div:nth-of-type(2) {
+        width: 20%;
+    }
+    > div:nth-of-type(3) {
+        width: 30%;
+    }
+    > div:nth-of-type(4) {
+        width: 10%;
+        display: flex;
+        justify-content: flex-end;
+    }
+`;
+
 const styles = {
-    addExpenseHolder, highlight, top, personInDebt
+    addExpenseHolder, highlight, top, personInDebt, formContainer
 }
 
 export default styles;

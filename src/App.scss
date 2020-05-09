@@ -12,6 +12,9 @@
     margin: 40px 0 20px;
     display: flex;
     flex-direction: column;
+    @media all and (max-width: 410px) {
+        font-size: 12px;
+    }
     .head {
         display: flex;
         flex-direction: column;
@@ -24,6 +27,7 @@
             padding: 10px 0 10px;
             font-weight: 700;
             div {
+                padding: 5px 10px;
                 justify-content: flex-start;
                 &:first-child {
                     width: 35%;
@@ -32,14 +36,14 @@
                     width: 20%;
                 }
                 &:nth-child(3) {
-                    width: 15%;
+                    width: 10%;
                 }
                 &:nth-child(4) {
                     width: 20%;
                     justify-content: flex-end;
                 }
                 &:nth-child(5) {
-                    width: 10%;
+                    width: 15%;
                     justify-content: flex-end;
                 }
             }
@@ -51,13 +55,15 @@
         .row {
             display: flex;
             flex-direction: row;
-            border-top: 1px solid #1D3557;
-            padding: 5px 0;
+            border-top: 1px solid #cacaca;
+            padding: 0;
             width: 100%;
             div {
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
+                border-right: 1px solid #cacaca;
+                padding: 5px 10px;
                 &:first-child {
                     width: 35%;
                 }
@@ -65,15 +71,16 @@
                     width: 20%;
                 }
                 &:nth-child(3) {
-                    width: 15%;
+                    width: 10%;
                 }
                 &:nth-child(4) {
                     width: 20%;
-                    justify-content: flex-end;
+                    justify-content: flex-start;
                 }
                 &:nth-child(5) {
-                    width: 10%;
+                    width: 15%;
                     justify-content: flex-end;
+                    border-right: none;
                     .btn {
                         margin: 0;
                     }
@@ -101,4 +108,15 @@
     background: #fff;
     position: relative;
     padding: 30px 40px;
+    > div {
+        display: flex;
+        flex-direction: row;
+        margin: 30px 0 0;
+        justify-content: center;
+        .btn {
+            height: auto;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+    }
 }
