@@ -46,7 +46,7 @@ const Dashboard = ({
                     </div>
                     <div className="body">
                         {expenseTypeSelected === 'standard' && sortedExpenses.map((expense, i) => {
-                            const formattedDate = new Date(expense.date).toLocaleDateString("pl-PL")
+                            const formattedDate = new Date(expense.date).toLocaleDateString("pl-PL", { month:"2-digit", day:"2-digit" })
                             return (
                                 i < 3 && <div className="row" key={expense.uid}>
                                     <div>{expense.name}</div>
