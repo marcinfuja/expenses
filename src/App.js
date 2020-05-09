@@ -231,7 +231,7 @@ class App extends Component {
     }
     
     componentDidMount() {
-        // this.login();
+        this.login();
         auth.onAuthStateChanged(user => {
             if (user) {
                 if (user.email) {
