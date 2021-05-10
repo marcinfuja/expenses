@@ -20,7 +20,7 @@ const Dashboard = ({
 }) => {
 
     const sortedExpenses = expenses.sort((a, b) => b.date - a.date);
-
+    
     return ( 
         <>
             <main css={styles.main}>
@@ -48,10 +48,10 @@ const Dashboard = ({
                         {expenseTypeSelected === 'standard' && sortedExpenses.map((expense, i) => {
                             const formattedDate = new Date(expense.date).toLocaleDateString("pl-PL", { month:"2-digit", day:"2-digit" })
                             return (
-                                i < 3 && <div className="row" key={expense.uid}>
+                                <div className="row" key={expense.uid}>
                                     <div>{expense.name}</div>
                                     <div>{expense.price}</div>
-                                    <div>{expense.user.charAt(0)}</div>
+                                    <div>{expense.user && expense.user.charAt(0)}</div>
                                     <div>{formattedDate}</div>
                                     <div><Button type="deleteBtn" onClick={() => removeExpense(expense.uid)}><DeleteIcon /></Button></div>
                                 </div>
@@ -61,10 +61,10 @@ const Dashboard = ({
                         {expenseTypeSelected === 'debt' && debt && debt.map((debt, i) =>  {
                             const formattedDate = new Date(debt.date).toLocaleDateString("pl-PL")
                             return (
-                            i < 3 && <div className="row" key={debt.uid}>
+                            <div className="row" key={debt.uid}>
                                 <div>{debt.name}</div>
                                 <div>{debt.price}</div>
-                                <div>{debt.user.charAt(0)}</div>
+                                <div>{debt.user && debt.user.charAt(0)}</div>
                                 <div>{formattedDate}</div>
                                 <div><Button type="deleteBtn" onClick={() => removeDebt(debt.uid)}><DeleteIcon /></Button></div>
                             </div>
