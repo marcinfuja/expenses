@@ -1,6 +1,6 @@
 const percentage = {
-  paymentPercentageMarcin: 0.5,
-  paymentPercentageAnia: 0.5,
+  paymentPercentageMarcin: 0.65,
+  paymentPercentageAnia: 0.35,
 };
 
 export default {
